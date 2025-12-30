@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_env:
+        description: 'TEST_ENV (local|qa|stage)'
+        required: true
+        default: 'qa'
+      browser:
+        description: 'browser (electron|chrome)'
+        required: true
+        default: 'chrome'
+  push:
+    branches: ['main']
+  pull_request:
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      TEST_ENV: ${{ inputs.test_env || 'qa' }}
+      # Prefer GitHub Secrets for real apps:
+      BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
+      USERNAME: ${{ secrets.USERNAME || 'standard_user' }}
+      PASSWORD: ${{ secrets.PASSWORD || 'secret_sauce' }}
+      ENABLE_ALLURE: 'false'
+      ENABLE_VISUAL: 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node (from .nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      # Cache Cypress binary (~/.cache/Cypress)
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Run Cypress (headless)
+        run: |
+          if [ "${{ inputs.browser }}" = "" ]; then
+            npm run cy:run
+          else
+            if [ "${{ inputs.browser }}" = "chrome" ]; then
+              npm run cy:run:chrome
+            else
+              npm run cy:run
+            fi
+          fi
+
+      - name: Upload reports (mochawesome + junit)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            reports/**
+          if-no-files-found: warn
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: |
+            cypress/screenshots/**
+          if-no-files-found: warn
+
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: |
+            cypress/videos/**
+          if-no-files-found: warn
