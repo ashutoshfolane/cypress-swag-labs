@@ -1,5 +1,9 @@
 cypress-swag-labs
 
+[![CI](https://github.com/ashutoshfolane/cypress-swag-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/ashutoshfolane/cypress-swag-labs/actions/workflows/ci.yml)
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 Production-grade end-to-end web automation framework built with Cypress + TypeScript, using the Swag Labs application as a reference implementation.
 The framework is designed to be scalable, maintainable, and CI-ready, and can be easily adapted for real-world enterprise web applications.
 
