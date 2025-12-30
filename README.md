@@ -1,39 +1,45 @@
-cypress-swag-labs
-
 [![CI](https://github.com/ashutoshfolane/cypress-swag-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/ashutoshfolane/cypress-swag-labs/actions/workflows/ci.yml)
-
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Cypress](https://img.shields.io/badge/cypress-13.x-green)
+![TypeScript](https://img.shields.io/badge/typescript-5.x-blue)
 
-Production-grade end-to-end web automation framework built with Cypress + TypeScript, using the Swag Labs application as a reference implementation.
-The framework is designed to be scalable, maintainable, and CI-ready, and can be easily adapted for real-world enterprise web applications.
+# cypress-swag-labs
 
-⸻
+Web automation framework built with **Cypress + TypeScript**, using the **Swag Labs** application as a reference implementation.
 
-🚀 What This Repository Provides
-	•	End-to-end UI automation for a modern web app
-	•	Clean Cypress + TypeScript architecture
-	•	Environment-aware execution (local / CI / stage-ready)
-	•	Tagged test execution (smoke vs regression)
-	•	CI integration with reporting artifacts
-	•	Opinionated structure aligned with real production teams
+The framework is designed to be **scalable, maintainable, and CI-ready**, and can be easily adapted for real-world enterprise web applications.
 
-⸻
+---
 
-🧱 Tech Stack
-	•	Test Runner: Cypress (latest stable)
-	•	Language: TypeScript
-	•	Package Manager: npm
-	•	Linting / Formatting: ESLint + Prettier
-	•	Reporting:
-	•	Mochawesome (HTML + JSON)
-	•	JUnit XML (CI-friendly)
-	•	CI/CD: GitHub Actions
-	•	Environment Management: dotenv (env/.env.* pattern)
+## 🚀 What This Repository Provides
 
-⸻
+- End-to-end UI automation for a modern web application
+- Clean Cypress + TypeScript architecture
+- Environment-aware execution (local / CI / stage-ready)
+- Tagged test execution (smoke vs regression)
+- CI integration with reporting artifacts
+- Opinionated structure aligned with real production teams
 
-📂 Project Structure
+---
 
+## 🧱 Tech Stack
+
+- **Test Runner:** Cypress (latest stable)
+- **Language:** TypeScript
+- **Package Manager:** npm
+- **Linting / Formatting:** ESLint + Prettier
+- **Reporting:**
+  - Mochawesome (HTML + JSON)
+  - JUnit XML (CI-friendly)
+- **CI/CD:** GitHub Actions
+- **Environment Management:** dotenv (`env/.env.*` pattern)
+
+---
+
+## 📂 Project Structure
+
+```text
 cypress-swag-labs/
 ├── .github/
 │   └── workflows/
@@ -55,8 +61,7 @@ cypress-swag-labs/
 ├── package.json
 ├── tsconfig.json
 └── README.md
-
-
+```
 ⸻
 
 ✅ Prerequisites
@@ -65,26 +70,27 @@ cypress-swag-labs/
 	•	Git
 
 Recommended:
-
+```
 nvm install
 nvm use
-
+```
 
 ⸻
 
 ⚙️ Local Setup
 
 1️⃣ Install dependencies
-
+```
 npm ci
-
+```
 2️⃣ Configure environment variables
 
 Create a local env file:
-
+```
 cp env/.env.example env/.env.local
-
+```
 Update values in env/.env.local as needed.
+
 ⚠️ Never commit real .env files — they are git-ignored by design.
 
 ⸻
@@ -92,27 +98,27 @@ Update values in env/.env.local as needed.
 ▶️ Running Tests Locally
 
 Open Cypress Test Runner (interactive)
-
+```
 npm run cy:open
-
+```
 Run all tests (headless)
-
+```
 npm run cy:run
-
+```
 Run smoke tests only
-
+```
 npm run cy:run:smoke
-
+```
 Run regression tests only
-
+```
 npm run cy:run:regression
-
+```
 Tests are tagged using @smoke and @regression and filtered via Cypress env configuration.
 
 ⸻
 
 🧪 Test Tagging Strategy
-
+```
 it('loads the application @smoke', () => {
   cy.visit('/');
 });
@@ -120,7 +126,7 @@ it('loads the application @smoke', () => {
 it('logs in successfully @regression', () => {
   cy.loginBySession();
 });
-
+```
 This allows:
 	•	Fast smoke runs on every PR
 	•	Full regression runs on demand or scheduled CI
@@ -177,5 +183,4 @@ This framework is intentionally designed to support:
 	•	Network stubbing & contract testing
 	•	Cross-browser scaling
 
-⸻
-
+---
